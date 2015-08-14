@@ -1,6 +1,9 @@
 package main
 
-import "strings"
+import (
+	"bytes"
+	"strings"
+)
 
 const (
 	S_DUNNO       = iota
@@ -18,7 +21,8 @@ type Token struct {
 }
 
 type Expression struct {
-	Line   int
+	Line   string
+	LineNo int
 	Tokens []Token
 }
 
@@ -81,4 +85,16 @@ func Tokenize(code []byte) []Token {
 		}
 	}
 	return tokens
+}
+
+func Parse(code []byte) []Expression {
+	exps := make([]Expression, 0)
+	for i, line := range bytes.Split(code, []byte{byte('\n')}) {
+		exps = append(exps, Expression{
+			Line:   string(line),
+			LineNo: i,
+			Tokens: Tokenize(append(line, byte('\n'))),
+		})
+	}
+	return exps
 }

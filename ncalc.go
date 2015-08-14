@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+
+	"github.com/kr/pretty"
 )
 
 func main() {
@@ -12,5 +14,5 @@ func main() {
 	flag.Parse()
 
 	code, _ := ioutil.ReadFile(*input_filename)
-	fmt.Println(Tokenize(code))
+	fmt.Printf("%# v\n", pretty.Formatter(Parse(code)))
 }

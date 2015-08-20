@@ -14,5 +14,7 @@ func main() {
 	flag.Parse()
 
 	code, _ := ioutil.ReadFile(*input_filename)
-	fmt.Printf("%# v\n", pretty.Formatter(Parse(code)))
+	for _, exp := range Parse(code) {
+		fmt.Printf("%# v\n", pretty.Formatter(Evaluate(exp, make(map[string]Value))))
+	}
 }
